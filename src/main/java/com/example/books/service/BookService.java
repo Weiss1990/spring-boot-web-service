@@ -8,14 +8,18 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.example.books.entity.Book;
+import com.example.books.entity.BookDetailsView;
+import com.example.books.repository.BookDetailsViewRepository;
 import com.example.books.repository.BookRepository;
 
 @Service
 public class BookService {
 
     private final BookRepository bookRepository;
-    public BookService(BookRepository bookRepository) {
+    private final BookDetailsViewRepository bookDetailsViewRepository;
+    public BookService(BookRepository bookRepository, BookDetailsViewRepository bookDetailsViewRepository) {
         this.bookRepository = bookRepository;
+        this.bookDetailsViewRepository = bookDetailsViewRepository;
     }
 
     public List<Book> getBooks() {
@@ -56,5 +60,9 @@ public class BookService {
    public void removeBook(Long id) {
         Book existingBook = bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Book not found with id: " + id));
         bookRepository.delete(existingBook);
+   }
+
+   public BookDetailsView getBookDetails(Long id) {
+        return bookDetailsViewRepository.findDetailsByBookId(id);  
    }
 }

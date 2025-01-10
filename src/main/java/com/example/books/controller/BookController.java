@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.books.dto.ApiResponse;
 import com.example.books.entity.Book;
+import com.example.books.entity.BookDetailsView;
 import com.example.books.service.BookService;
 
 import java.util.List;
@@ -47,6 +48,13 @@ public class BookController {
         } 
 
         ApiResponse<String> response = new ApiResponse<String>(404, "Book not found with id " + id);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{id}/details")
+    public ResponseEntity<?> getBookDetails(@PathVariable Long id) {
+        BookDetailsView details = bookService.getBookDetails(id);
+        ApiResponse<BookDetailsView> response = new ApiResponse<BookDetailsView>(200, details);
         return ResponseEntity.ok(response);
     }
 
