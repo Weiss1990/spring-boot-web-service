@@ -53,9 +53,15 @@ public class BookController {
 
     @GetMapping("/{id}/details")
     public ResponseEntity<?> getBookDetails(@PathVariable Long id) {
-        BookDetailsView details = bookService.getBookDetails(id);
-        ApiResponse<BookDetailsView> response = new ApiResponse<BookDetailsView>(200, details);
-        return ResponseEntity.ok(response);
+        try {
+            BookDetailsView details = bookService.getBookDetails(id);
+            ApiResponse<BookDetailsView> response = new ApiResponse<BookDetailsView>(200, details);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            ApiResponse<?> response = new ApiResponse<>(500, e);
+            return ResponseEntity.ok(response);
+        } 
+        
     }
 
     @PostMapping
